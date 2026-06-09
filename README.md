@@ -1,6 +1,6 @@
 # NCKH - Sliding Cubes Compaction Simulator
 
-Dự án này được xây dựng phục vụ đề tài Nghiên cứu Khoa học về bài toán **nén khối trượt** trong không gian 2D và 3D. Mục tiêu của dự án là mô phỏng, triển khai và trực quan hóa quá trình đưa một cấu hình các khối rời rạc về trạng thái compact hơn thông qua các phép di chuyển hợp lệ.
+Dự án này được xây dựng phục vụ đề tài Nghiên cứu Khoa học về bài toán nén khối trượt trong không gian 2D và 3D. Mục tiêu của dự án là mô phỏng, triển khai và trực quan hóa quá trình đưa một cấu hình các khối rời rạc về trạng thái compact hơn thông qua các phép di chuyển hợp lệ.
 
 Dự án gồm hai phần chính:
 
@@ -9,7 +9,31 @@ Dự án gồm hai phần chính:
 
 ---
 
-## 1. Giới thiệu bài toán
+## 1. Demo API online
+
+Backend API đã được triển khai trên Hugging Face Space. Có thể chạy thử trực tiếp tại:
+
+```text
+https://sliding-cubes-lab-sliding-cubes-api.hf.space/docs
+```
+
+Endpoint chính:
+
+```text
+POST /compact
+```
+
+Link test trực tiếp endpoint `/compact`:
+
+```text
+https://sliding-cubes-lab-sliding-cubes-api.hf.space/docs#/default/compact_api_compact_post
+```
+
+Người dùng có thể mở link trên, chọn **Try it out**, nhập JSON input và bấm **Execute** để xem kết quả trả về.
+
+---
+
+## 2. Giới thiệu bài toán
 
 Bài toán nén khối trượt xét một tập các ô/khối trên lưới nguyên. Mỗi khối có thể di chuyển theo một số quy tắc hình học nhất định, ví dụ như:
 
@@ -20,7 +44,7 @@ Trong quá trình di chuyển, thuật toán cần đảm bảo cấu hình vẫ
 
 ---
 
-## 2. Cấu trúc thư mục
+## 3. Cấu trúc thư mục
 
 ```text
 NCKH/
@@ -52,32 +76,17 @@ NCKH/
 
 ---
 
-## 3. Chức năng chính
+## 4. Chức năng chính
 
 ### Backend thuật toán
 
 Phần backend trong `algorithm_2d_3d/` có các chức năng:
 
 * Nhận cấu hình khối 2D hoặc 3D từ client.
-* Kiểm tra input hợp lệ:
+* Kiểm tra input hợp lệ.
+* Chạy thuật toán nén tương ứng với số chiều.
+* Trả về danh sách từng bước di chuyển, bao gồm.
 
-  * Số chiều phải là 2 hoặc 3.
-  * Danh sách khối không được rỗng.
-  * Tọa độ phải là số nguyên không âm.
-  * Không có khối trùng tọa độ.
-  * Cấu hình ban đầu phải liên thông.
-* Chạy thuật toán nén tương ứng với số chiều:
-
-  * 2D: `compact_2d_1`
-  * 3D: `compact_3d_exact`
-* Trả về danh sách từng bước di chuyển, bao gồm:
-
-  * Tọa độ trước và sau khi di chuyển.
-  * Loại move: `slide` hoặc `convex`.
-  * Giá trị potential trước/sau.
-  * Trạng thái liên thông.
-  * Trạng thái finished.
-  * Tên operation được sử dụng.
 
 ### Ứng dụng mô phỏng
 
@@ -91,7 +100,7 @@ Phần `application/` là ứng dụng Flutter dùng để:
 
 ---
 
-## 4. Công nghệ sử dụng
+## 5. Công nghệ sử dụng
 
 ### Backend
 
@@ -110,7 +119,20 @@ Phần `application/` là ứng dụng Flutter dùng để:
 
 ---
 
-## 5. Cách chạy backend
+## 6. Chạy project ở môi trường local
+
+Lưu ý: GitHub chỉ dùng để lưu trữ mã nguồn. Để chạy backend hoặc frontend ở môi trường local, cần clone hoặc tải mã nguồn project về máy.
+
+Clone repository:
+
+```bash
+git clone https://github.com/Q-Anh2610/NCKH.git
+cd NCKH
+```
+
+---
+
+## 7. Cách chạy backend local
 
 Di chuyển vào thư mục backend:
 
@@ -134,6 +156,12 @@ Mặc định API sẽ chạy tại:
 
 ```text
 http://127.0.0.1:8000
+```
+
+API documentation:
+
+```text
+http://127.0.0.1:8000/docs
 ```
 
 Endpoint chính:
@@ -174,7 +202,7 @@ Ví dụ input 3D:
 
 ---
 
-## 6. Cách chạy backend bằng Docker
+## 8. Cách chạy backend bằng Docker
 
 Di chuyển vào thư mục backend:
 
@@ -200,9 +228,15 @@ API sẽ chạy tại:
 http://localhost:7860
 ```
 
+API documentation:
+
+```text
+http://localhost:7860/docs
+```
+
 ---
 
-## 7. Cách chạy ứng dụng Flutter
+## 9. Cách chạy ứng dụng Flutter
 
 Di chuyển vào thư mục ứng dụng:
 
@@ -236,7 +270,7 @@ application/build/web
 
 ---
 
-## 8. Kết quả đầu ra của thuật toán
+## 10. Kết quả đầu ra của thuật toán
 
 API trả về kết quả theo cấu trúc tổng quát:
 
@@ -268,7 +302,7 @@ Trong đó:
 
 ---
 
-## 9. Mục tiêu nghiên cứu
+## 11. Mục tiêu nghiên cứu
 
 Dự án hướng tới các mục tiêu:
 
@@ -280,6 +314,6 @@ Dự án hướng tới các mục tiêu:
 
 ---
 
-## 10. Ghi chú
+## 12. Ghi chú
 
 Đây là dự án phục vụ mục đích học tập và nghiên cứu. Thuật toán trong project hiện được triển khai theo hướng heuristic/paper-inspired, ưu tiên khả năng mô phỏng và quan sát quá trình nén hơn là chứng minh tối ưu tuyệt đối trong mọi trường hợp.
